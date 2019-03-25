@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "1.0.0",
   "workspaces": [
     "packages/*"
   ],
@@ -16,6 +17,7 @@
     "build"
   ],
   "devDependencies": {
+    "customize-cra": "^0.2.12",
     "docsify-cli": "^4.2.1",
     "pre-commit": "^1.2.2",
     "prettier": "^1.13.5",
@@ -27,5 +29,22 @@
     "tslint-language-service": "^0.9.9",
     "tslint-plugin-prettier": "^2.0.0",
     "typescript": "^3.1.1"
-  }
+  },
+  "dependencies": {},
+  "name": "react-app-rewire-typescript-babel-preset",
+  "description": "**The official Create React App project looks to be adding support for the features this package enabled. With some patience, you'll be able to use TypeScript with Create React App out of the box.**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feimosi/react-app-rewire-typescript-babel-preset.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feimosi/react-app-rewire-typescript-babel-preset/issues"
+  },
+  "homepage": "https://github.com/feimosi/react-app-rewire-typescript-babel-preset#readme"
 }

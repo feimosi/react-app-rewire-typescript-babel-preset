@@ -1,8 +1,26 @@
 import path from "path";
 import * as webpack from "webpack";
 import reactScriptsPaths from "react-scripts/config/paths";
-import { getLoader, Matcher, getBabelLoader } from "react-app-rewired";
+import { getBabelLoader } from "customize-cra";
 import { getValidatedConfig } from "./webpackUtils";
+
+const getLoader = (rules: any, matcher: any): any => {
+  let loader;
+
+  rules.some((rule: any) => {
+    return (loader = matcher(rule)
+      ? rule
+      : getLoader(
+          rule.use ||
+            rule.oneOf ||
+            (Array.isArray(rule.loader) && rule.loader) ||
+            [],
+          matcher
+        ));
+  });
+
+  return loader;
+};
 
 // Switch out the entry point index.js for index.tsx.
 // We need to do this on module import to intercept react-script's preflight
@@ -26,7 +44,7 @@ export default function(c: webpack.Configuration): webpack.Configuration {
 
   // Replace the babel-preset-react-app preset with the preset rewire from this
   // package. This is done so @babel/preset-flow can be removed.
-  const babelLoader = getBabelLoader(config.module.rules) as webpack.NewLoader;
+  const babelLoader = getBabelLoader(config) as webpack.NewLoader;
   if (!babelLoader || !babelLoader.options)
     throw new Error("Unable to locate Babel loader.");
   babelLoader.options.presets = [path.resolve(__dirname, "rewirePreset")];
@@ -37,7 +55,7 @@ export default function(c: webpack.Configuration): webpack.Configuration {
 // Matcher to find JavaScript/JSX loader using getLoader util from
 // react-app-rewired. We need to able to locate the script loader to change the
 // regular expression for its file name matching.
-const scriptsLoaderMatcher: Matcher = rule => {
+const scriptsLoaderMatcher: any = (rule: any) => {
   return Boolean(
     rule.test &&
       // 2.0.2, 2.0.3

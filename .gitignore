@@ -25,7 +25,6 @@ bower_components/
 .env.*
 
 #Build generated
-dist/
 build/
 
 # Serverless generated files
